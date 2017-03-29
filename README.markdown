@@ -73,6 +73,7 @@ the library-provided activities. In other words, do not have
 `android:hardwareAccelerated="false"` for your whole
 `<application>` in the manifest.
 
+
 Upgrade Notes
 -------------
 If you are moving from prior versions to 0.7.0 or higher, note
