@@ -37,7 +37,8 @@
     android:layout_marginRight="16dp"
     android:src="@drawable/cwac_cam2_ic_action_camera"
     fab:fab_colorNormal="@color/cwac_cam2_picture_fab"
-    fab:fab_colorPressed="@color/cwac_cam2_picture_fab_pressed" />
+    fab:fab_colorPressed="@color/cwac_cam2_picture_fab_pressed"
+    android:visibility="invisible" />
 
   <com.github.clans.fab.FloatingActionMenu
     android:id="@+id/cwac_cam2_settings"
@@ -49,7 +50,8 @@
     android:layout_marginRight="16dp"
     fab:menu_colorNormal="@color/cwac_cam2_secondary_fab"
     fab:menu_colorPressed="@color/cwac_cam2_secondary_fab_pressed"
-    fab:menu_icon="@drawable/cwac_cam2_ic_action_settings">
+    fab:menu_icon="@drawable/cwac_cam2_ic_action_settings"
+    android:visibility="invisible" >
 
     <com.github.clans.fab.FloatingActionButton
       android:id="@+id/cwac_cam2_switch_camera"
