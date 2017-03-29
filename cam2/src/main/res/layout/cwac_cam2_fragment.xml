@@ -102,4 +102,5 @@
     android:background="@color/cwac_cam2_chrono_background"
     android:padding="4dp"
     android:visibility="gone" />
+
 </RelativeLayout>
