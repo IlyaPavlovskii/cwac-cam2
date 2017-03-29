@@ -21,20 +21,58 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 25
+        versionCode 2
+        versionName "1.0.4"
     }
 }
 
-android.libraryVariants.all { variant ->
-    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
-        title = "$name $version API"
-        // description = ''
-        source = variant.javaCompile.source
-        classpath = files(variant.javaCompile.classpath.files, project.android.getBootClasspath())
-        options {
-            links "http://docs.oracle.com/javase/7/docs/api/"
-            linksOffline "http://d.android.com/reference","${android.sdkDirectory}/docs/reference"
-        }
-        exclude '**/BuildConfig.java'
-        exclude '**/R.java'
-    }
+
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
 }
+
+task javadoc(type: Javadoc) {
+    failOnError  false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+//uncomment to build a jar file in addition to the default aar file
+android.libraryVariants.all { variant ->
+    def name = variant.buildType.name
+    def task = project.tasks.create "jar${name.capitalize()}", Jar
+    task.dependsOn variant.javaCompile
+    task.from variant.javaCompile.destinationDir
+    artifacts.add('archives', task);
+}
+
+
+//android.libraryVariants.all { variant ->
+//    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
+//        title = "$name $version API"
+//        // description = ''
+//        source = variant.javaCompile.source
+//        classpath = files(variant.javaCompile.classpath.files, project.android.getBootClasspath())
+//        options {
+//            links "http://docs.oracle.com/javase/7/docs/api/"
+//            linksOffline "http://d.android.com/reference","${android.sdkDirectory}/docs/reference"
+//        }
+//        exclude '**/BuildConfig.java'
+//        exclude '**/R.java'
+//    }
+//}
